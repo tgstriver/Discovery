@@ -34,6 +34,9 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
     @Autowired
     protected StrategyWrapper strategyWrapper;
 
+    @Autowired
+    protected ServiceStrategyFilterExclusion serviceStrategyFilterExclusion;
+
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以服务设置为优先，否则以外界传值为优先
     @Value("${" + ServiceStrategyConstant.SPRING_APPLICATION_STRATEGY_SERVICE_HEADER_PRIORITY + ":true}")
     protected Boolean serviceHeaderPriority;
@@ -55,6 +58,11 @@ public abstract class AbstractServiceStrategyRouteFilter extends ServiceStrategy
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        boolean isExclusion = serviceStrategyFilterExclusion.isExclusion(request, response);
+        if (isExclusion) {
+            return;
+        }
+
         ServiceStrategyRouteFilterRequest serviceStrategyRouteFilterRequest = new ServiceStrategyRouteFilterRequest(request);
 
         String routeEnvironment = getRouteEnvironment();

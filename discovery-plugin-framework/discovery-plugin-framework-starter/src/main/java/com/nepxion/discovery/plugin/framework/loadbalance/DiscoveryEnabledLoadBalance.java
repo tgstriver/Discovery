@@ -9,16 +9,8 @@ package com.nepxion.discovery.plugin.framework.loadbalance;
  * @version 1.0
  */
 
-import java.util.List;
-
 import org.springframework.cloud.client.ServiceInstance;
 
-public interface WeightRandomLoadBalance<T> {
-    T getT();
-
-    int getWeight(ServiceInstance server, T t);
-
-    boolean checkWeight(List<ServiceInstance> serverList, T t);
-
-    ServiceInstance choose(List<ServiceInstance> serverList, T t);
+public interface DiscoveryEnabledLoadBalance {
+    boolean apply(ServiceInstance server);
 }

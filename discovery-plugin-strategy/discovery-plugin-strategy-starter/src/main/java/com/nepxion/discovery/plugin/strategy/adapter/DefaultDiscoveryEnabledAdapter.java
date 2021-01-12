@@ -20,6 +20,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.entity.ServiceType;
 import com.nepxion.discovery.common.util.JsonUtil;
 import com.nepxion.discovery.common.util.StringUtil;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -27,7 +28,6 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.filter.StrategyVersionFilter;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
-import com.netflix.loadbalancer.Server;
 
 public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired(required = false)
@@ -48,6 +48,9 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     @Autowired
     protected DiscoveryClient discoveryClient;
 
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_CONSUMER_ISOLATION_ENABLED + ":false}")
+    protected Boolean consumerIsolationEnabled;
+
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE + ":" + StrategyConstant.SPRING_APPLICATION_STRATEGY_ENVIRONMENT_ROUTE_VALUE + "}")
     protected String environmentRoute;
 
@@ -64,8 +67,13 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
     protected Boolean versionPreferEnabled;
 
     @Override
-    public boolean apply(Server server) {
-        boolean enabled = applyEnvironment(server);
+    public boolean apply(ServiceInstance server) {
+        boolean enabled = applyGroup(server);
+        if (!enabled) {
+            return false;
+        }
+
+        enabled = applyEnvironment(server);
         if (!enabled) {
             return false;
         }
@@ -103,7 +111,23 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return applyStrategy(server);
     }
 
-    public boolean applyEnvironment(Server server) {
+    public boolean applyGroup(ServiceInstance server) {
+        if (!consumerIsolationEnabled) {
+            return true;
+        }
+
+        String serverServiceType = pluginAdapter.getServerServiceType(server);
+        if (StringUtils.equals(serverServiceType, ServiceType.GATEWAY.toString())) {
+            return true;
+        }
+
+        String serverGroup = pluginAdapter.getServerGroup(server);
+        String group = pluginAdapter.getGroup();
+
+        return StringUtils.equals(serverGroup, group);
+    }
+
+    public boolean applyEnvironment(ServiceInstance server) {
         String environmentValue = pluginContextHolder.getContextRouteEnvironment();
         if (StringUtils.isEmpty(environmentValue)) {
             return true;
@@ -132,7 +156,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
     }
 
-    public boolean applyZone(Server server) {
+    public boolean applyZone(ServiceInstance server) {
         if (!zoneAffinityEnabled) {
             return true;
         }
@@ -170,7 +194,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         }
     }
 
-    public boolean applyRegion(Server server) {
+    public boolean applyRegion(ServiceInstance server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
         String regions = getRegions(serviceId);
@@ -214,7 +238,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return regions;
     }
 
-    public boolean applyAddress(Server server) {
+    public boolean applyAddress(ServiceInstance server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
         String addresses = getAddresses(serviceId);
@@ -224,13 +248,13 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         // 如果精确匹配不满足，尝试用通配符匹配
         List<String> addressList = StringUtil.splitToList(addresses);
-        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
+        if (addressList.contains(server.getHost() + ":" + server.getPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
             return true;
         }
 
         // 通配符匹配。前者是通配表达式，后者是具体值
         for (String addressPattern : addressList) {
-            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
+            if (discoveryMatcherStrategy.match(addressPattern, server.getHost() + ":" + server.getPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
                 return true;
             }
         }
@@ -256,7 +280,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return addresses;
     }
 
-    public boolean applyIdBlacklist(Server server) {
+    public boolean applyIdBlacklist(ServiceInstance server) {
         String ids = pluginContextHolder.getContextRouteIdBlacklist();
         if (StringUtils.isEmpty(ids)) {
             return true;
@@ -272,7 +296,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return true;
     }
 
-    public boolean applyAddressBlacklist(Server server) {
+    public boolean applyAddressBlacklist(ServiceInstance server) {
         String addresses = pluginContextHolder.getContextRouteAddressBlacklist();
         if (StringUtils.isEmpty(addresses)) {
             return true;
@@ -280,13 +304,13 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
 
         // 如果精确匹配不满足，尝试用通配符匹配
         List<String> addressList = StringUtil.splitToList(addresses);
-        if (addressList.contains(server.getHostPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
+        if (addressList.contains(server.getHost() + ":" + server.getPort()) || addressList.contains(server.getHost()) || addressList.contains(String.valueOf(server.getPort()))) {
             return false;
         }
 
         // 通配符匹配。前者是通配表达式，后者是具体值
         for (String addressPattern : addressList) {
-            if (discoveryMatcherStrategy.match(addressPattern, server.getHostPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
+            if (discoveryMatcherStrategy.match(addressPattern, server.getHost() + ":" + server.getPort()) || discoveryMatcherStrategy.match(addressPattern, server.getHost()) || discoveryMatcherStrategy.match(addressPattern, String.valueOf(server.getPort()))) {
                 return false;
             }
         }
@@ -294,7 +318,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return true;
     }
 
-    public boolean applyVersion(Server server) {
+    public boolean applyVersion(ServiceInstance server) {
         String serviceId = pluginAdapter.getServerServiceId(server);
 
         String versions = getVersions(serviceId);
@@ -361,7 +385,7 @@ public class DefaultDiscoveryEnabledAdapter implements DiscoveryEnabledAdapter {
         return versions;
     }
 
-    public boolean applyStrategy(Server server) {
+    public boolean applyStrategy(ServiceInstance server) {
         if (CollectionUtils.isEmpty(discoveryEnabledStrategyList)) {
             return true;
         }

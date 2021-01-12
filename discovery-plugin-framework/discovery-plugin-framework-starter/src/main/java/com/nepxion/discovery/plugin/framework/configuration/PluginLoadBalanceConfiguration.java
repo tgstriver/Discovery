@@ -9,61 +9,21 @@ package com.nepxion.discovery.plugin.framework.configuration;
  * @version 1.0
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.cloud.netflix.ribbon.PropertiesFactory;
-import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
-import org.springframework.cloud.netflix.ribbon.RibbonClientName;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.loadbalancer.core.ReactorLoadBalancer;
+import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
+import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
-import com.nepxion.discovery.plugin.framework.decorator.ZoneAvoidanceRuleDecorator;
-import com.nepxion.discovery.plugin.framework.listener.loadbalance.LoadBalanceListenerExecutor;
-import com.netflix.client.config.IClientConfig;
-import com.netflix.loadbalancer.ILoadBalancer;
-import com.netflix.loadbalancer.IPing;
-import com.netflix.loadbalancer.IRule;
-import com.netflix.loadbalancer.Server;
-import com.netflix.loadbalancer.ServerList;
-import com.netflix.loadbalancer.ServerListFilter;
-import com.netflix.loadbalancer.ServerListUpdater;
-import com.netflix.loadbalancer.ZoneAwareLoadBalancer;
+import com.nepxion.discovery.plugin.framework.decorator.RoundRobinLoadBalancerDecorator;
 
-@Configuration
-@AutoConfigureAfter(RibbonClientConfiguration.class)
 public class PluginLoadBalanceConfiguration {
-    @RibbonClientName
-    private String serviceId = "client";
-
-    @Autowired
-    private PropertiesFactory propertiesFactory;
-
-    @Autowired
-    private LoadBalanceListenerExecutor loadBalanceListenerExecutor;
-
     @Bean
-    @ConditionalOnMissingBean
-    public IRule ribbonRule(IClientConfig config) {
-        if (this.propertiesFactory.isSet(IRule.class, serviceId)) {
-            return this.propertiesFactory.get(IRule.class, config, serviceId);
-        }
-
-        ZoneAvoidanceRuleDecorator rule = new ZoneAvoidanceRuleDecorator();
-        rule.initWithNiwsConfig(config);
-
-        return rule;
-    }
-
-    @Bean
-    public ILoadBalancer ribbonLoadBalancer(IClientConfig config, ServerList<Server> serverList, ServerListFilter<Server> serverListFilter, IRule rule, IPing ping, ServerListUpdater serverListUpdater) {
-        if (this.propertiesFactory.isSet(ILoadBalancer.class, serviceId)) {
-            return this.propertiesFactory.get(ILoadBalancer.class, config, serviceId);
-        }
-
-        ZoneAwareLoadBalancer<?> loadBalancer = new ZoneAwareLoadBalancer<>(config, rule, ping, serverList, serverListFilter, serverListUpdater);
-        loadBalanceListenerExecutor.setLoadBalancer(loadBalancer);
-
-        return loadBalancer;
+    public ReactorLoadBalancer<ServiceInstance> reactorServiceInstanceLoadBalancer(Environment environment,
+            LoadBalancerClientFactory loadBalancerClientFactory) {
+        String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
+        return new RoundRobinLoadBalancerDecorator(
+                loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class), name);
     }
 }
