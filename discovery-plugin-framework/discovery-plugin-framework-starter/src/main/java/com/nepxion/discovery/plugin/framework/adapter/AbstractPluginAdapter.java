@@ -53,7 +53,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getPlugin() {
-        return getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        String plugin = getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        if (StringUtils.isEmpty(plugin)) {
+            plugin = DiscoveryConstant.UNKNOWN;
+        }
+
+        return plugin;
     }
 
     @Override
@@ -265,7 +270,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServerPlugin(ServiceInstance server) {
-        return getServerMetadata(server).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        String plugin = getServerMetadata(server).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        if (StringUtils.isEmpty(plugin)) {
+            plugin = DiscoveryConstant.UNKNOWN;
+        }
+
+        return plugin;
     }
 
     @Override
@@ -372,7 +382,12 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getInstancePlugin(ServiceInstance instance) {
-        return getInstanceMetadata(instance).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        String plugin = getInstanceMetadata(instance).get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        if (StringUtils.isEmpty(plugin)) {
+            plugin = DiscoveryConstant.UNKNOWN;
+        }
+
+        return plugin;
     }
 
     @Override
