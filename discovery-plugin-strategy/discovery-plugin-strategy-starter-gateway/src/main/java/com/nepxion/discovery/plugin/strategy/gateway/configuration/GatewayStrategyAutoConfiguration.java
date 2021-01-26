@@ -14,8 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nepxion.discovery.plugin.strategy.adapter.DefaultDiscoveryEnabledAdapter;
-import com.nepxion.discovery.plugin.strategy.adapter.DiscoveryEnabledAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyClearFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyRouteFilter;
@@ -44,11 +42,5 @@ public class GatewayStrategyAutoConfiguration {
     @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
     public GatewayStrategyMonitor gatewayStrategyMonitor() {
         return new DefaultGatewayStrategyMonitor();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
-        return new DefaultDiscoveryEnabledAdapter();
     }
 }
