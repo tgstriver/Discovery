@@ -1,31 +1,17 @@
 package com.nepxion.discovery.plugin.strategy.monitor;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @author zifeihan
- * @version 1.0
- */
-
-import java.util.LinkedList;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class StrategyTracerContext {
-    private static final ThreadLocal<StrategyTracerContext> THREAD_LOCAL = new ThreadLocal<StrategyTracerContext>() {
-        @Override
-        protected StrategyTracerContext initialValue() {
-            return new StrategyTracerContext();
-        }
-    };
+import java.util.LinkedList;
 
-    private LinkedList<Object> spanList = new LinkedList<Object>();
+public class StrategyTracerContext {
+
+    private static final ThreadLocal<StrategyTracerContext> THREAD_LOCAL = ThreadLocal.withInitial(StrategyTracerContext::new);
+
+    private LinkedList<Object> spanList = new LinkedList<>();
 
     public static StrategyTracerContext getCurrentContext() {
         return THREAD_LOCAL.get();

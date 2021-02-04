@@ -1,14 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.service.context;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,12 +7,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.web.context.request.RequestAttributes;
 
 public class RestStrategyContext {
-    private static final ThreadLocal<RestStrategyContext> THREAD_LOCAL = new ThreadLocal<RestStrategyContext>() {
-        @Override
-        protected RestStrategyContext initialValue() {
-            return new RestStrategyContext();
-        }
-    };
+
+    private static final ThreadLocal<RestStrategyContext> THREAD_LOCAL = ThreadLocal.withInitial(RestStrategyContext::new);
 
     private RequestAttributes requestAttributes;
 

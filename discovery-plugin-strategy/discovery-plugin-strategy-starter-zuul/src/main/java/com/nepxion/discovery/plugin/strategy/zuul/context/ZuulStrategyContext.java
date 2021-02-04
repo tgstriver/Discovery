@@ -1,31 +1,15 @@
 package com.nepxion.discovery.plugin.strategy.zuul.context;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @author Hao Huang
- * @version 1.0
- */
-
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 public class ZuulStrategyContext {
-    private static final ThreadLocal<ZuulStrategyContext> THREAD_LOCAL = new ThreadLocal<ZuulStrategyContext>() {
-        @Override
-        protected ZuulStrategyContext initialValue() {
-            return new ZuulStrategyContext();
-        }
-    };
+    private static final ThreadLocal<ZuulStrategyContext> THREAD_LOCAL = ThreadLocal.withInitial(ZuulStrategyContext::new);
 
     private HttpServletRequest request;
     private Map<String, String> headers;

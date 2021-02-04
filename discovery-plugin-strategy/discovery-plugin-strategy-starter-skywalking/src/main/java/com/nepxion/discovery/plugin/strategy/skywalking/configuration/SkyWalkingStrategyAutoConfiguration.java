@@ -1,14 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.skywalking.configuration;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -27,15 +18,15 @@ import com.taobao.text.Color;
 @Configuration
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class SkyWalkingStrategyAutoConfiguration {
-    static {
-        LogoBanner logoBanner = new LogoBanner(SkyWalkingStrategyAutoConfiguration.class, "/com/nepxion/skywalking/resource/logo.txt", "Welcome to Nepxion", 7, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red }, true);
 
+    static {
+        LogoBanner logoBanner = new LogoBanner(SkyWalkingStrategyAutoConfiguration.class, "/com/nepxion/skywalking/resource/logo.txt", "Welcome to Nepxion", 7, 5, new Color[]{Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red}, true);
         NepxionBanner.show(logoBanner, new Description("Tracing:", SkyWalkingStrategyConstant.SKYWALKING_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED)
     public StrategyTracer strategyTracer() {
         return new SkyWalkingStrategyTracer();
     }

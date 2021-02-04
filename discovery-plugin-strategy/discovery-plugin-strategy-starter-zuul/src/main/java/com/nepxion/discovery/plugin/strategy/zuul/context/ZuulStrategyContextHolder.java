@@ -1,33 +1,22 @@
 package com.nepxion.discovery.plugin.strategy.zuul.context;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @author Fan Yang
- * @version 1.0
- */
+import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
+import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
+import com.netflix.zuul.context.RequestContext;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
-
-import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
-import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
-import com.nepxion.discovery.plugin.strategy.zuul.constant.ZuulStrategyConstant;
-import com.netflix.zuul.context.RequestContext;
-
 public class ZuulStrategyContextHolder extends AbstractStrategyContextHolder {
+
     // 如果外界也传了相同的Header，例如，从Postman传递过来的Header，当下面的变量为true，以网关设置为优先，否则以外界传值为优先
     @Value("${" + ZuulStrategyConstant.SPRING_APPLICATION_STRATEGY_ZUUL_HEADER_PRIORITY + ":true}")
     protected Boolean zuulHeaderPriority;

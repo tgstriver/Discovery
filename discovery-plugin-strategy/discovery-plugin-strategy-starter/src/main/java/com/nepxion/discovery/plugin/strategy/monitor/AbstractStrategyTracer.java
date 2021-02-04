@@ -1,27 +1,18 @@
 package com.nepxion.discovery.plugin.strategy.monitor;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import java.util.Map;
-
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
-import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+import java.util.Map;
 
 public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
+
     @Autowired
     protected PluginAdapter pluginAdapter;
 
@@ -56,7 +47,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             return;
         }
 
-        S span = buildSpan();
+        S span = this.buildSpan();
 
         StrategyTracerContext.getCurrentContext().setSpan(span);
     }
@@ -67,7 +58,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             return;
         }
 
-        S span = getCurrentSpan();
+        S span = this.getCurrentSpan();
         if (span == null) {
             // LOG.error("Span not found in context to trace put");
 
@@ -76,67 +67,69 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
         if (MapUtils.isNotEmpty(contextMap)) {
             for (Map.Entry<String, String> entry : contextMap.entrySet()) {
-                outputSpan(span, entry.getKey(), entry.getValue());
+                this.outputSpan(span, entry.getKey(), entry.getValue());
             }
         }
 
         Map<String, String> customizationMap = strategyMonitorContext.getCustomizationMap();
         if (MapUtils.isNotEmpty(customizationMap)) {
             for (Map.Entry<String, String> entry : customizationMap.entrySet()) {
-                outputSpan(span, entry.getKey(), entry.getValue());
+                this.outputSpan(span, entry.getKey(), entry.getValue());
             }
         }
 
         if (tracerSeparateSpanEnabled) {
-            outputSpan(span, DiscoveryConstant.SPAN_TAG_PLUGIN_NAME, tracerSpanPluginValue);
+            this.outputSpan(span, DiscoveryConstant.SPAN_TAG_PLUGIN_NAME, tracerSpanPluginValue);
         }
-        outputSpan(span, DiscoveryConstant.TRACE_ID, toTraceId(span));
-        outputSpan(span, DiscoveryConstant.SPAN_ID, toSpanId(span));
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
+
+        this.outputSpan(span, DiscoveryConstant.TRACE_ID, this.toTraceId(span));
+        this.outputSpan(span, DiscoveryConstant.SPAN_ID, this.toSpanId(span));
+        this.outputSpan(span, DiscoveryConstant.N_D_SERVICE_GROUP, pluginAdapter.getGroup());
+        this.outputSpan(span, DiscoveryConstant.N_D_SERVICE_TYPE, pluginAdapter.getServiceType());
         String serviceAppId = pluginAdapter.getServiceAppId();
         if (StringUtils.isNotEmpty(serviceAppId)) {
-            outputSpan(span, DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
+            this.outputSpan(span, DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
         }
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
-        outputSpan(span, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
+
+        this.outputSpan(span, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
+        this.outputSpan(span, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
+        this.outputSpan(span, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
+        this.outputSpan(span, DiscoveryConstant.N_D_SERVICE_REGION, pluginAdapter.getRegion());
+        this.outputSpan(span, DiscoveryConstant.N_D_SERVICE_ENVIRONMENT, pluginAdapter.getEnvironment());
+        this.outputSpan(span, DiscoveryConstant.N_D_SERVICE_ZONE, pluginAdapter.getZone());
 
         if (tracerRuleOutputEnabled) {
             String routeVersion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION);
             if (StringUtils.isNotEmpty(routeVersion)) {
-                outputSpan(span, DiscoveryConstant.N_D_VERSION, routeVersion);
+                this.outputSpan(span, DiscoveryConstant.N_D_VERSION, routeVersion);
             }
             String routeRegion = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION);
             if (StringUtils.isNotEmpty(routeRegion)) {
-                outputSpan(span, DiscoveryConstant.N_D_REGION, routeRegion);
+                this.outputSpan(span, DiscoveryConstant.N_D_REGION, routeRegion);
             }
             String routeEnvironment = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ENVIRONMENT);
             if (StringUtils.isNotEmpty(routeEnvironment)) {
-                outputSpan(span, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment);
+                this.outputSpan(span, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment);
             }
             String routeAddress = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS);
             if (StringUtils.isNotEmpty(routeAddress)) {
-                outputSpan(span, DiscoveryConstant.N_D_ADDRESS, routeAddress);
+                this.outputSpan(span, DiscoveryConstant.N_D_ADDRESS, routeAddress);
             }
             String routeVersionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_VERSION_WEIGHT);
             if (StringUtils.isNotEmpty(routeVersionWeight)) {
-                outputSpan(span, DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
+                this.outputSpan(span, DiscoveryConstant.N_D_VERSION_WEIGHT, routeVersionWeight);
             }
             String routeRegionWeight = strategyContextHolder.getHeader(DiscoveryConstant.N_D_REGION_WEIGHT);
             if (StringUtils.isNotEmpty(routeRegionWeight)) {
-                outputSpan(span, DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
+                this.outputSpan(span, DiscoveryConstant.N_D_REGION_WEIGHT, routeRegionWeight);
             }
             String idBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ID_BLACKLIST);
             if (StringUtils.isNotEmpty(idBlacklist)) {
-                outputSpan(span, DiscoveryConstant.N_D_ID_BLACKLIST, idBlacklist);
+                this.outputSpan(span, DiscoveryConstant.N_D_ID_BLACKLIST, idBlacklist);
             }
             String addressBlacklist = strategyContextHolder.getHeader(DiscoveryConstant.N_D_ADDRESS_BLACKLIST);
             if (StringUtils.isNotEmpty(addressBlacklist)) {
-                outputSpan(span, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, addressBlacklist);
+                this.outputSpan(span, DiscoveryConstant.N_D_ADDRESS_BLACKLIST, addressBlacklist);
             }
         }
     }
@@ -151,14 +144,14 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             return;
         }
 
-        S span = getCurrentSpan();
+        S span = this.getCurrentSpan();
         if (span == null) {
             // LOG.error("Span not found in context to trace error");
 
             return;
         }
 
-        errorSpan(span, e);
+        this.errorSpan(span, e);
     }
 
     @Override
@@ -171,9 +164,9 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
             return;
         }
 
-        S span = getCurrentSpan();
+        S span = this.getCurrentSpan();
         if (span != null) {
-            finishSpan(span);
+            this.finishSpan(span);
         } else {
             // LOG.error("Span not found in context to trace clear");
         }
@@ -183,7 +176,7 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
 
     @SuppressWarnings("unchecked")
     private S getCurrentSpan() {
-        return tracerSeparateSpanEnabled ? (S) StrategyTracerContext.getCurrentContext().getSpan() : getActiveSpan();
+        return tracerSeparateSpanEnabled ? (S) StrategyTracerContext.getCurrentContext().getSpan() : this.getActiveSpan();
     }
 
     @Override
@@ -200,14 +193,15 @@ public abstract class AbstractStrategyTracer<S> implements StrategyTracer {
         return null;
     }
 
+    @Override
     public String getSpanId() {
         if (!tracerEnabled) {
             return null;
         }
 
-        S span = getCurrentSpan();
+        S span = this.getCurrentSpan();
         if (span != null) {
-            return toSpanId(span);
+            return this.toSpanId(span);
         }
 
         return null;

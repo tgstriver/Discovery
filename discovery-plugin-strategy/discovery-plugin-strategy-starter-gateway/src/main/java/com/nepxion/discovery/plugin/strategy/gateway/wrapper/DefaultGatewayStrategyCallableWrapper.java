@@ -1,16 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.gateway.wrapper;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author Haojun Ren
- * @author Hao Huang
- * @version 1.0
- */
-
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
 import com.nepxion.discovery.plugin.strategy.monitor.StrategyTracerContext;
 import org.springframework.web.server.ServerWebExchange;
@@ -22,7 +11,6 @@ public class DefaultGatewayStrategyCallableWrapper implements GatewayStrategyCal
     @Override
     public <T> Callable<T> wrapCallable(Callable<T> callable) {
         ServerWebExchange exchange = GatewayStrategyContext.getCurrentContext().getExchange();
-
         Object span = StrategyTracerContext.getCurrentContext().getSpan();
 
         return () -> {

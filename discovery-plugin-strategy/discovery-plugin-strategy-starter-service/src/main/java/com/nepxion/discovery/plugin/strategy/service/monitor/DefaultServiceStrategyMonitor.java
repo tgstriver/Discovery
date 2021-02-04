@@ -1,29 +1,20 @@
 package com.nepxion.discovery.plugin.strategy.service.monitor;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.common.util.ClassUtil;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.common.util.ClassUtil;
-import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitor;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DefaultServiceStrategyMonitor extends StrategyMonitor implements ServiceStrategyMonitor {
+
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_ENABLED + ":false}")
     protected Boolean tracerEnabled;
 

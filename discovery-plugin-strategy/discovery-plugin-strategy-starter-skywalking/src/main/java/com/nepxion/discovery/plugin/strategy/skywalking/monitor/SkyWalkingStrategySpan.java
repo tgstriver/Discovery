@@ -1,24 +1,14 @@
 package com.nepxion.discovery.plugin.strategy.skywalking.monitor;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import io.opentracing.Span;
 import io.opentracing.SpanContext;
+import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 
 import java.util.Map;
 
-import org.apache.skywalking.apm.toolkit.trace.TraceContext;
-
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-
 public class SkyWalkingStrategySpan implements Span {
+
     private Span span;
     private String traceId;
     private String spanId;

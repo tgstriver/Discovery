@@ -1,31 +1,17 @@
 package com.nepxion.discovery.plugin.strategy.service.context;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class RpcStrategyContext {
-    private static final ThreadLocal<RpcStrategyContext> THREAD_LOCAL = new ThreadLocal<RpcStrategyContext>() {
-        @Override
-        protected RpcStrategyContext initialValue() {
-            return new RpcStrategyContext();
-        }
-    };
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-    private Map<String, Object> attributes = new LinkedHashMap<String, Object>();
+public class RpcStrategyContext {
+    private static final ThreadLocal<RpcStrategyContext> THREAD_LOCAL = ThreadLocal.withInitial(RpcStrategyContext::new);
+
+    private Map<String, Object> attributes = new LinkedHashMap<>();
 
     public static RpcStrategyContext getCurrentContext() {
         return THREAD_LOCAL.get();
@@ -37,7 +23,6 @@ public class RpcStrategyContext {
 
     public RpcStrategyContext add(String key, Object value) {
         attributes.put(key, value);
-
         return this;
     }
 
@@ -47,13 +32,11 @@ public class RpcStrategyContext {
 
     public RpcStrategyContext remove(String key) {
         attributes.remove(key);
-
         return this;
     }
 
     public RpcStrategyContext clear() {
         attributes.clear();
-
         return this;
     }
 

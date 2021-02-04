@@ -1,14 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.opentelemetry.monitor;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
 
@@ -21,6 +12,7 @@ import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.AbstractStrategyTracer;
 
 public class OpenTelemetryStrategyTracer extends AbstractStrategyTracer<Span> {
+
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_EXCEPTION_DETAIL_OUTPUT_ENABLED + ":false}")
     protected Boolean tracerExceptionDetailOutputEnabled;
 
