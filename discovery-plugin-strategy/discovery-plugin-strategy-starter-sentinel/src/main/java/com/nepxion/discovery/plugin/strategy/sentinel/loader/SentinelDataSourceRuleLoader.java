@@ -5,16 +5,11 @@ package com.nepxion.discovery.plugin.strategy.sentinel.loader;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Weihua Wang
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
@@ -29,8 +24,14 @@ import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public abstract class SentinelDataSourceRuleLoader extends SentinelFileRuleLoader {
+
     private static final Logger LOG = LoggerFactory.getLogger(SentinelDataSourceRuleLoader.class);
 
     @Autowired
@@ -38,7 +39,7 @@ public abstract class SentinelDataSourceRuleLoader extends SentinelFileRuleLoade
 
     @Override
     public void load() {
-        initialize();
+        this.initialize();
 
         String groupKey = pluginAdapter.getGroupKey();
         String group = pluginAdapter.getGroup();

@@ -5,13 +5,11 @@ package com.nepxion.discovery.plugin.strategy.sentinel.nacos.loader;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Weihua Wang
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.List;
-import java.util.Properties;
 
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
 import com.alibaba.csp.sentinel.datasource.nacos.NacosDataSource;
@@ -25,7 +23,11 @@ import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.loader.SentinelDataSourceRuleLoader;
 
+import java.util.List;
+import java.util.Properties;
+
 public class SentinelNacosRuleLoader extends SentinelDataSourceRuleLoader {
+
     private Properties properties;
 
     @Override

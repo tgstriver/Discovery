@@ -5,19 +5,11 @@ package com.nepxion.discovery.plugin.strategy.sentinel.configuration;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Weihua Wang
  * @author Haojun Ren
  * @version 1.0
  */
-
-import javax.annotation.PostConstruct;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import com.nepxion.discovery.plugin.strategy.sentinel.constant.SentinelStrategyConstant;
 import com.nepxion.discovery.plugin.strategy.sentinel.loader.SentinelRuleLoader;
@@ -26,10 +18,19 @@ import com.nepxion.discovery.plugin.strategy.sentinel.parser.SentinelDegradeRule
 import com.nepxion.discovery.plugin.strategy.sentinel.parser.SentinelFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.sentinel.parser.SentinelParamFlowRuleParser;
 import com.nepxion.discovery.plugin.strategy.sentinel.parser.SentinelSystemRuleParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
-@ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED, matchIfMissing = false)
+@ConditionalOnProperty(value = SentinelStrategyConstant.SPRING_APPLICATION_STRATEGY_SENTINEL_ENABLED)
 public class SentinelStrategyAutoConfiguration {
+
     private static final Logger LOG = LoggerFactory.getLogger(SentinelStrategyAutoConfiguration.class);
 
     @Autowired(required = false)

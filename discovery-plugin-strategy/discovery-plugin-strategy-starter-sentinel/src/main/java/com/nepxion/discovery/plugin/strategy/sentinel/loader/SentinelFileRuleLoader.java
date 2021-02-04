@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.sentinel.loader;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Weihua Wang
  * @author Haojun Ren
  * @version 1.0
@@ -33,6 +34,7 @@ import com.nepxion.discovery.plugin.strategy.sentinel.parser.SentinelParamFlowRu
 import com.nepxion.discovery.plugin.strategy.sentinel.parser.SentinelSystemRuleParser;
 
 public class SentinelFileRuleLoader implements SentinelRuleLoader {
+
     private static final Logger LOG = LoggerFactory.getLogger(SentinelFileRuleLoader.class);
 
     /**
@@ -167,7 +169,6 @@ public class SentinelFileRuleLoader implements SentinelRuleLoader {
 
     public String getSentinelRule(String path) {
         String rule = FileContextUtil.getText(applicationContext, path);
-
         return StringUtils.isNotEmpty(rule) ? rule : SentinelStrategyConstant.SENTINEL_EMPTY_RULE;
     }
 }
