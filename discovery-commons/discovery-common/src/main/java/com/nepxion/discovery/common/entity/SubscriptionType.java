@@ -1,25 +1,25 @@
 package com.nepxion.discovery.common.entity;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author Haojun Ren
- * @version 1.0
- */
-
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
+/**
+ * 配置信息订阅类型
+ */
 public enum SubscriptionType {
 
+    /**
+     * 部分订阅，到dataId上
+     */
     PARTIAL(DiscoveryConstant.PARTIAL),
+
+    /**
+     * 全局订阅，到group上
+     */
     GLOBAL(DiscoveryConstant.GLOBAL);
 
     private String value;
 
-    private SubscriptionType(String value) {
+    SubscriptionType(String value) {
         this.value = value;
     }
 

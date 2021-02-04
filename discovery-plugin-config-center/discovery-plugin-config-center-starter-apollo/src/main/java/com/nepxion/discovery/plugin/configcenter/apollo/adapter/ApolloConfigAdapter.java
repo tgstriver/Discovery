@@ -1,26 +1,16 @@
 package com.nepxion.discovery.plugin.configcenter.apollo.adapter;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ctrip.framework.apollo.ConfigChangeListener;
 import com.nepxion.discovery.common.apollo.constant.ApolloConstant;
 import com.nepxion.discovery.common.apollo.operation.ApolloOperation;
-import com.nepxion.discovery.common.apollo.operation.ApolloSubscribeCallback;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.PostConstruct;
 
 public class ApolloConfigAdapter extends ConfigAdapter {
+
     @Autowired
     private ApolloOperation apolloOperation;
 
@@ -49,12 +39,7 @@ public class ApolloConfigAdapter extends ConfigAdapter {
         configLogger.logSubscribeStarted(globalConfig);
 
         try {
-            return apolloOperation.subscribeConfig(group, dataId, new ApolloSubscribeCallback() {
-                @Override
-                public void callback(String config) {
-                    callbackConfig(config, globalConfig);
-                }
-            });
+            return apolloOperation.subscribeConfig(group, dataId, config -> callbackConfig(config, globalConfig));
         } catch (Exception e) {
             configLogger.logSubscribeFailed(e, globalConfig);
         }

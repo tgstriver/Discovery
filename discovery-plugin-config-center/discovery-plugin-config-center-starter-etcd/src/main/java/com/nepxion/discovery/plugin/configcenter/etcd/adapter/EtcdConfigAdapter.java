@@ -1,27 +1,16 @@
 package com.nepxion.discovery.plugin.configcenter.etcd.adapter;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Congwei Xu
- * @version 1.0
- */
-
+import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
+import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
+import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
+import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 import io.etcd.jetcd.Watch;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.nepxion.discovery.common.etcd.constant.EtcdConstant;
-import com.nepxion.discovery.common.etcd.operation.EtcdOperation;
-import com.nepxion.discovery.common.etcd.operation.EtcdSubscribeCallback;
-import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
-
 public class EtcdConfigAdapter extends ConfigAdapter {
+
     @Autowired
     private EtcdOperation etcdOperation;
 
@@ -50,12 +39,7 @@ public class EtcdConfigAdapter extends ConfigAdapter {
         configLogger.logSubscribeStarted(globalConfig);
 
         try {
-            return etcdOperation.subscribeConfig(group, dataId, new EtcdSubscribeCallback() {
-                @Override
-                public void callback(String config) {
-                    callbackConfig(config, globalConfig);
-                }
-            });
+            return etcdOperation.subscribeConfig(group, dataId, config -> callbackConfig(config, globalConfig));
         } catch (Exception e) {
             configLogger.logSubscribeFailed(e, globalConfig);
         }

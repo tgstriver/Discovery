@@ -1,19 +1,8 @@
 package com.nepxion.discovery.plugin.configcenter.nacos.adapter;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author Haojun Ren
- * @version 1.0
- */
-
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
 import com.nepxion.discovery.common.nacos.operation.NacosOperation;
-import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
 import com.nepxion.discovery.common.thread.DiscoveryNamedThreadFactory;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
@@ -27,7 +16,11 @@ import java.util.concurrent.TimeUnit;
 
 public class NacosConfigAdapter extends ConfigAdapter {
 
-    private ExecutorService executorService = new ThreadPoolExecutor(2, 4, 0, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(1), new DiscoveryNamedThreadFactory("nacos-config"), new ThreadPoolExecutor.DiscardOldestPolicy());
+    private ExecutorService executorService = new ThreadPoolExecutor(2, 4,
+            0, TimeUnit.MILLISECONDS,
+            new ArrayBlockingQueue<>(1),
+            new DiscoveryNamedThreadFactory("nacos-config"),
+            new ThreadPoolExecutor.DiscardOldestPolicy());
 
     @Autowired
     private NacosOperation nacosOperation;
@@ -46,23 +39,18 @@ public class NacosConfigAdapter extends ConfigAdapter {
     @PostConstruct
     @Override
     public void subscribeConfig() {
-        partialListener = subscribeConfig(false);
-        globalListener = subscribeConfig(true);
+        partialListener = this.subscribeConfig(false);
+        globalListener = this.subscribeConfig(true);
     }
 
     private Listener subscribeConfig(boolean globalConfig) {
-        String group = getGroup();
-        String dataId = getDataId(globalConfig);
+        String group = super.getGroup();
+        String dataId = super.getDataId(globalConfig);
 
         configLogger.logSubscribeStarted(globalConfig);
 
         try {
-            return nacosOperation.subscribeConfig(group, dataId, executorService, new NacosSubscribeCallback() {
-                @Override
-                public void callback(String config) {
-                    callbackConfig(config, globalConfig);
-                }
-            });
+            return nacosOperation.subscribeConfig(group, dataId, executorService, config -> super.callbackConfig(config, globalConfig));
         } catch (Exception e) {
             configLogger.logSubscribeFailed(e, globalConfig);
         }
@@ -72,8 +60,8 @@ public class NacosConfigAdapter extends ConfigAdapter {
 
     @Override
     public void unsubscribeConfig() {
-        unsubscribeConfig(partialListener, false);
-        unsubscribeConfig(globalListener, true);
+        this.unsubscribeConfig(partialListener, false);
+        this.unsubscribeConfig(globalListener, true);
 
         executorService.shutdownNow();
     }

@@ -1,23 +1,14 @@
 package com.nepxion.discovery.plugin.framework.cache;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.concurrent.TimeUnit;
 
 public class PluginCache {
+
     private LoadingCache<String, String> loadingCache;
 
     public PluginCache() {

@@ -1,29 +1,19 @@
 package com.nepxion.discovery.plugin.registercenter.zookeeper.adapter;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
+import com.nepxion.discovery.common.exception.DiscoveryException;
+import com.nepxion.discovery.plugin.framework.adapter.AbstractPluginAdapter;
+import com.nepxion.discovery.plugin.registercenter.zookeeper.constant.ZookeeperConstant;
+import com.netflix.loadbalancer.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.zookeeper.discovery.ZookeeperServer;
 import org.springframework.cloud.zookeeper.serviceregistry.ZookeeperRegistration;
 import org.springframework.core.env.Environment;
 
-import com.nepxion.discovery.common.exception.DiscoveryException;
-import com.nepxion.discovery.plugin.framework.adapter.AbstractPluginAdapter;
-import com.nepxion.discovery.plugin.registercenter.zookeeper.constant.ZookeeperConstant;
-import com.netflix.loadbalancer.Server;
+import javax.annotation.PostConstruct;
+import java.util.Map;
 
 public class ZookeeperAdapter extends AbstractPluginAdapter {
+
     @Autowired
     private Environment environment;
 

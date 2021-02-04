@@ -1,26 +1,16 @@
 package com.nepxion.discovery.plugin.configcenter.zookeeper.adapter;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author rotten
- * @version 1.0
- */
-
-import javax.annotation.PostConstruct;
-
+import com.nepxion.discovery.common.zookeeper.constant.ZookeeperConstant;
+import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
+import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
+import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
 import org.apache.curator.framework.recipes.cache.TreeCacheListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.nepxion.discovery.common.zookeeper.constant.ZookeeperConstant;
-import com.nepxion.discovery.common.zookeeper.operation.ZookeeperOperation;
-import com.nepxion.discovery.common.zookeeper.operation.ZookeeperSubscribeCallback;
-import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
-import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
+import javax.annotation.PostConstruct;
 
 public class ZookeeperConfigAdapter extends ConfigAdapter {
+
     @Autowired
     private ZookeeperOperation zookeeperOperation;
 
@@ -49,12 +39,7 @@ public class ZookeeperConfigAdapter extends ConfigAdapter {
         configLogger.logSubscribeStarted(globalConfig);
 
         try {
-            return zookeeperOperation.subscribeConfig(group, dataId, new ZookeeperSubscribeCallback() {
-                @Override
-                public void callback(String config) {
-                    callbackConfig(config, globalConfig);
-                }
-            });
+            return zookeeperOperation.subscribeConfig(group, dataId, config -> callbackConfig(config, globalConfig));
         } catch (Exception e) {
             configLogger.logSubscribeFailed(e, globalConfig);
         }

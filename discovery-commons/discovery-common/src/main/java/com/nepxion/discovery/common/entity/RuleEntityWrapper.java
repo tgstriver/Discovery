@@ -1,16 +1,8 @@
 package com.nepxion.discovery.common.entity;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 public class RuleEntityWrapper {
-    // 以局部规则为准，如果局部规则规则里某些属性没有，而全局规则有，则从全局规则把那些属性复制到局部规则，并合并创建最终的复合规则
+
+    // 以局部规则为准，如果局部规则里某些属性没有，而全局规则有，则从全局规则把那些属性复制到局部规则，并合并创建最终的复合规则
     public static RuleEntity assemble(RuleEntity partialRuleEntity, RuleEntity globalRuleEntity) {
         RuleEntity ruleEntity = new RuleEntity();
 

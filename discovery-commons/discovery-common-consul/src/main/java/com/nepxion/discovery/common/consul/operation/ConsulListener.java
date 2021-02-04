@@ -1,21 +1,12 @@
 package com.nepxion.discovery.common.consul.operation;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Congwei Xu
- * @version 1.0
- */
-
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
-
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.QueryParams;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.kv.model.GetValue;
+
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 public class ConsulListener implements Runnable {
     private String group;

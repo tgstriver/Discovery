@@ -1,22 +1,22 @@
 package com.nepxion.discovery.plugin.framework.adapter;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author Haojun Ren
- * @version 1.0
- */
-
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
 import org.springframework.cloud.client.ServiceInstance;
 
 import java.util.Map;
 
+/**
+ * 插件适配器
+ */
 public interface PluginAdapter {
+
+    /********************************************************************************************
+     *
+     ************************************* 服务消费者信息 ******************************************
+     *
+     *********************************************************************************************
+     */
 
     String getPlugin();
 
@@ -76,6 +76,13 @@ public interface PluginAdapter {
 
     String getContextPath();
 
+    /********************************************************************************************
+     *
+     ************************************* 服务提供者信息 ******************************************
+     *
+     *********************************************************************************************
+     */
+
     Map<String, String> getServerMetadata(Server server);
 
     String getServerPlugin(Server server);
@@ -99,6 +106,13 @@ public interface PluginAdapter {
     String getServerZone(Server server);
 
     String getServerContextPath(Server server);
+
+    /********************************************************************************************
+     *
+     ************************************* 服务实例信息 ******************************************
+     *
+     *********************************************************************************************
+     */
 
     Map<String, String> getInstanceMetadata(ServiceInstance instance);
 

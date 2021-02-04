@@ -1,15 +1,5 @@
 package com.nepxion.discovery.plugin.configcenter.nacos.configuration;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author Haojun Ren
- * @version 1.0
- */
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,21 +16,7 @@ import com.taobao.text.Color;
 public class NacosConfigAutoConfiguration {
 
     static {
-        /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
-        if (Boolean.valueOf(bannerShown)) {
-            System.out.println("");
-            System.out.println("╔═╗ ╔╗");
-            System.out.println("║║╚╗║║");
-            System.out.println("║╔╗╚╝╠══╦══╦══╦══╗");
-            System.out.println("║║╚╗║║╔╗║╔═╣╔╗║══╣");
-            System.out.println("║║ ║║║╔╗║╚═╣╚╝╠══║");
-            System.out.println("╚╝ ╚═╩╝╚╩══╩══╩══╝");
-            System.out.println(NacosConstant.TYPE + " Config");
-            System.out.println("");
-        }*/
-
         LogoBanner logoBanner = new LogoBanner(NacosConfigAutoConfiguration.class, "/com/nepxion/nacos/resource/logo.txt", "Welcome to Nepxion", 5, 5, new Color[]{Color.red, Color.green, Color.cyan, Color.blue, Color.yellow}, true);
-
         NepxionBanner.show(logoBanner, new Description("Config:", NacosConstant.NACOS_TYPE, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
@@ -48,17 +24,4 @@ public class NacosConfigAutoConfiguration {
     public ConfigAdapter configAdapter() {
         return new NacosConfigAdapter();
     }
-
-    // Just for test
-    /*@Bean
-    public ApplicationInfoAdapter applicationInfoAdapter() {
-        String uuid = UUID.randomUUID().toString();
-
-        return new ApplicationInfoAdapter() {
-            @Override
-            public String getAppId() {
-                return uuid;
-            }
-        };
-    }*/
 }

@@ -1,15 +1,5 @@
 package com.nepxion.discovery.plugin.framework.adapter;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author Haojun Ren
- * @version 1.0
- */
-
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
 import com.nepxion.discovery.common.entity.RuleEntity;
@@ -55,7 +45,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getPlugin() {
-        String plugin = getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
+        String plugin = this.getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_DISCOVERY_PLUGIN);
         if (StringUtils.isEmpty(plugin)) {
             plugin = DiscoveryConstant.UNKNOWN;
         }
@@ -70,9 +60,8 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getGroup() {
-        String groupKey = getGroupKey();
-
-        String group = getGroup(groupKey);
+        String groupKey = this.getGroupKey();
+        String group = this.getGroup(groupKey);
         if (StringUtils.isEmpty(group)) {
             group = DiscoveryConstant.DEFAULT;
         }
@@ -81,7 +70,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     }
 
     protected String getGroup(String groupKey) {
-        return getMetadata().get(groupKey);
+        return this.getMetadata().get(groupKey);
     }
 
     @Override
@@ -94,6 +83,11 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
         return registration.getServiceId().toLowerCase();
     }
 
+    /**
+     * 目前这里只有apollo中间件会需要
+     *
+     * @return
+     */
     @Override
     public String getServiceAppId() {
         if (applicationInfoAdapter != null) {
@@ -105,7 +99,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getServiceUUId() {
-        return getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID);
+        return this.getMetadata().get(DiscoveryMetaDataConstant.SPRING_APPLICATION_UUID);
     }
 
     @Override
@@ -125,17 +119,17 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     @Override
     public String getVersion() {
-        String dynamicVersion = getDynamicVersion();
+        String dynamicVersion = this.getDynamicVersion();
         if (StringUtils.isNotEmpty(dynamicVersion)) {
             return dynamicVersion;
         }
 
-        return getLocalVersion();
+        return this.getLocalVersion();
     }
 
     @Override
     public String getLocalVersion() {
-        String version = getMetadata().get(DiscoveryConstant.VERSION);
+        String version = this.getMetadata().get(DiscoveryConstant.VERSION);
         if (StringUtils.isEmpty(version)) {
             version = DiscoveryConstant.DEFAULT;
         }
@@ -185,8 +179,8 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
 
     // 从动态全局规则和动态局部规则缓存组装出最终的动态规则
     private void assembleDynamicRule() {
-        RuleEntity dynamicPartialRule = getDynamicPartialRule();
-        RuleEntity dynamicGlobalRule = getDynamicGlobalRule();
+        RuleEntity dynamicPartialRule = this.getDynamicPartialRule();
+        RuleEntity dynamicGlobalRule = this.getDynamicGlobalRule();
 
         RuleEntity dynamicRule = RuleEntityWrapper.assemble(dynamicPartialRule, dynamicGlobalRule);
         ruleCache.put(DiscoveryConstant.DYNAMIC_RULE, dynamicRule);
@@ -200,8 +194,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Override
     public void setDynamicPartialRule(RuleEntity ruleEntity) {
         ruleCache.put(DiscoveryConstant.DYNAMIC_PARTIAL_RULE, ruleEntity);
-
-        assembleDynamicRule();
+        this.assembleDynamicRule();
     }
 
     @Override

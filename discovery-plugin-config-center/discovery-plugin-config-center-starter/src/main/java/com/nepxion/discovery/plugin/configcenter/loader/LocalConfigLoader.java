@@ -1,20 +1,13 @@
 package com.nepxion.discovery.plugin.configcenter.loader;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- *
- * @author Haojun Ren
- * @version 1.0
- */
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import com.nepxion.discovery.plugin.framework.util.FileContextUtil;
 
+/**
+ * 从本地配置文件中加载配置信息
+ */
 public abstract class LocalConfigLoader implements ConfigLoader {
 
     @Autowired
@@ -22,11 +15,10 @@ public abstract class LocalConfigLoader implements ConfigLoader {
 
     @Override
     public String[] getConfigList() throws Exception {
-        String path = getPath();
+        String path = this.getPath();
 
         String[] config = new String[1];
         config[0] = FileContextUtil.getText(applicationContext, path);
-
         return config;
     }
 

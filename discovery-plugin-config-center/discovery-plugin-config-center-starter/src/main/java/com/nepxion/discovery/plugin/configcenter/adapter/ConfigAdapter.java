@@ -1,14 +1,5 @@
 package com.nepxion.discovery.plugin.configcenter.adapter;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +12,11 @@ import com.nepxion.discovery.plugin.framework.event.PluginEventWapper;
 import com.nepxion.discovery.plugin.framework.event.RuleClearedEvent;
 import com.nepxion.discovery.plugin.framework.event.RuleUpdatedEvent;
 
+/**
+ * 读取远程配置信息的一个适配器，因为远程配置中心有很多种类型
+ */
 public abstract class ConfigAdapter extends RemoteConfigLoader {
+
     @Autowired
     private PluginAdapter pluginAdapter;
 
@@ -34,9 +29,8 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
     @Override
     public String[] getConfigList() throws Exception {
         String[] configList = new String[2];
-        configList[0] = getConfig(false);
-        configList[1] = getConfig(true);
-
+        configList[0] = this.getConfig(false);
+        configList[1] = this.getConfig(true);
         return configList;
     }
 
@@ -56,12 +50,12 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
     }
 
     public void callbackConfig(String config, boolean globalConfig) {
-        SubscriptionType subscriptionType = getSubscriptionType(globalConfig);
+        SubscriptionType subscriptionType = this.getSubscriptionType(globalConfig);
 
         if (StringUtils.isNotEmpty(config)) {
             configLogger.logUpdatedEvent(globalConfig);
 
-            RuleEntity ruleEntity = null;
+            RuleEntity ruleEntity;
             if (globalConfig) {
                 ruleEntity = pluginAdapter.getDynamicGlobalRule();
             } else {
@@ -72,15 +66,15 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
             if (ruleEntity != null) {
                 rule = ruleEntity.getContent();
             }
+
             if (!StringUtils.equals(rule, config)) {
-                fireRuleUpdated(new RuleUpdatedEvent(subscriptionType, config), true);
+                this.fireRuleUpdated(new RuleUpdatedEvent(subscriptionType, config), true);
             } else {
                 configLogger.logUpdatedSame(globalConfig);
             }
         } else {
             configLogger.logClearedEvent(globalConfig);
-
-            fireRuleCleared(new RuleClearedEvent(subscriptionType), true);
+            this.fireRuleCleared(new RuleClearedEvent(subscriptionType), true);
         }
     }
 
@@ -95,7 +89,6 @@ public abstract class ConfigAdapter extends RemoteConfigLoader {
     public String getDataId(boolean globalConfig) {
         String group = getGroup();
         String serviceId = getServiceId();
-
         return globalConfig ? group : serviceId;
     }
 

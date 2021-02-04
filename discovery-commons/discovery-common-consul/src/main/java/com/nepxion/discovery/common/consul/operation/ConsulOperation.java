@@ -1,27 +1,18 @@
 package com.nepxion.discovery.common.consul.operation;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Congwei Xu
- * @version 1.0
- */
-
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ExecutorService;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.kv.model.GetValue;
 import com.nepxion.discovery.common.consul.constant.ConsulConstant;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
 
 public class ConsulOperation {
+
     @Autowired
     private ConsulClient consulClient;
 
