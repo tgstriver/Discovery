@@ -5,12 +5,16 @@ package com.nepxion.discovery.common.nacos.configuration;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
 
-import java.util.Properties;
-
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.exception.NacosException;
+import com.nepxion.discovery.common.nacos.constant.NacosConstant;
+import com.nepxion.discovery.common.nacos.operation.NacosOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -18,14 +22,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.exception.NacosException;
-import com.nepxion.discovery.common.nacos.constant.NacosConstant;
-import com.nepxion.discovery.common.nacos.operation.NacosOperation;
+import java.util.Properties;
 
 @Configuration
 public class NacosAutoConfiguration {
+
     @Autowired
     private Environment environment;
 
@@ -33,7 +34,6 @@ public class NacosAutoConfiguration {
     @ConditionalOnMissingBean
     public ConfigService nacosConfigService() throws NacosException {
         Properties properties = createNacosProperties(environment, true);
-
         return NacosFactory.createConfigService(properties);
     }
 

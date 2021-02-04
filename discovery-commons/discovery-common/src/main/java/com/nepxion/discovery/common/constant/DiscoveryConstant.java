@@ -5,6 +5,7 @@ package com.nepxion.discovery.common.constant;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -128,12 +129,12 @@ public class DiscoveryConstant {
     public static final String TRACE_ID = "trace-id";
     public static final String SPAN_ID = "span-id";
     public static final String SPAN_VALUE = "NEPXION";
-    public static final String SPAN_TAG_PLUGIN_NAME = "plugin"; 
+    public static final String SPAN_TAG_PLUGIN_NAME = "plugin";
     public static final String SPAN_TAG_PLUGIN_VALUE = "Nepxion Discovery";
 
     public static final String CLASS = "class";
     public static final String METHOD = "method";
-    public static final String PARAMETER = "parameter"; 
+    public static final String PARAMETER = "parameter";
     public static final String RETURN = "return";
     public static final String PARAMETER_MAP = "parameterMap";
     public static final String EVENT = "event";

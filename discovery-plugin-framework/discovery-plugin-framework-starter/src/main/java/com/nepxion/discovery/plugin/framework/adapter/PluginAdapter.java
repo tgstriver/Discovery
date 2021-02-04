@@ -5,18 +5,19 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
 
-import java.util.Map;
-
-import org.springframework.cloud.client.ServiceInstance;
-
 import com.nepxion.discovery.common.entity.RuleEntity;
 import com.netflix.loadbalancer.Server;
+import org.springframework.cloud.client.ServiceInstance;
+
+import java.util.Map;
 
 public interface PluginAdapter {
+
     String getPlugin();
 
     String getGroupKey();

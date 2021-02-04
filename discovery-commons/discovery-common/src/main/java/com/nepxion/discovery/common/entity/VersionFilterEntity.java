@@ -1,28 +1,19 @@
 package com.nepxion.discovery.common.entity;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 public class VersionFilterEntity implements Serializable {
     private static final long serialVersionUID = -6147106004826964165L;
-    
-    private Map<String, List<VersionEntity>> versionEntityMap = new LinkedHashMap<String, List<VersionEntity>>();
+
+    private Map<String, List<VersionEntity>> versionEntityMap = new LinkedHashMap<>();
 
     public Map<String, List<VersionEntity>> getVersionEntityMap() {
         return versionEntityMap;

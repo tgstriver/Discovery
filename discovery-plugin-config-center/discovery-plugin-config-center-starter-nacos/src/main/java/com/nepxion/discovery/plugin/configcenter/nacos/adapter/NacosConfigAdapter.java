@@ -5,18 +5,10 @@ package com.nepxion.discovery.plugin.configcenter.nacos.adapter;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.nepxion.discovery.common.nacos.constant.NacosConstant;
@@ -25,8 +17,16 @@ import com.nepxion.discovery.common.nacos.operation.NacosSubscribeCallback;
 import com.nepxion.discovery.common.thread.DiscoveryNamedThreadFactory;
 import com.nepxion.discovery.plugin.configcenter.adapter.ConfigAdapter;
 import com.nepxion.discovery.plugin.configcenter.logger.ConfigLogger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.PostConstruct;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class NacosConfigAdapter extends ConfigAdapter {
+
     private ExecutorService executorService = new ThreadPoolExecutor(2, 4, 0, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(1), new DiscoveryNamedThreadFactory("nacos-config"), new ThreadPoolExecutor.DiscardOldestPolicy());
 
     @Autowired

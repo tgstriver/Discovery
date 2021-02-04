@@ -5,16 +5,10 @@ package com.nepxion.discovery.plugin.framework.configuration;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 
 import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
@@ -48,14 +42,24 @@ import com.nepxion.discovery.plugin.framework.loadbalance.weight.StrategyMapWeig
 import com.nepxion.discovery.plugin.framework.ribbon.RibbonProcessor;
 import com.nepxion.eventbus.annotation.EnableEventBus;
 import com.taobao.text.Color;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableEventBus
 public class PluginAutoConfiguration {
-    static {
-        LogoBanner logoBanner = new LogoBanner(PluginAutoConfiguration.class, "/com/nepxion/ribbon/resource/logo.txt", "Welcome to Nepxion", 6, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta }, true);
 
-        NepxionBanner.show(logoBanner, new Description("LoadBalancer:", "Ribbon", 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
+    static {
+        LogoBanner logoBanner = new LogoBanner(PluginAutoConfiguration.class, "/com/nepxion/ribbon/resource/logo.txt",
+                "Welcome to Nepxion", 6, 5,
+                new Color[]{Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta}, true);
+
+        NepxionBanner.show(logoBanner, new Description("LoadBalancer:", "Ribbon", 0, 1),
+                new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
     }
 
     @Bean

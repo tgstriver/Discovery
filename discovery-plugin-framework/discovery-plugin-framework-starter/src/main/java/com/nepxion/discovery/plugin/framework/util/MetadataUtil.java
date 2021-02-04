@@ -1,22 +1,19 @@
 package com.nepxion.discovery.plugin.framework.util;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-
 public class MetadataUtil {
+
+    /**
+     * 如果通过系统属性设置了'metadata.'开头的值，那么就用系统属性覆盖应用程序中设置的值
+     *
+     * @param metadata
+     */
     public static void filter(Map<String, String> metadata) {
         Properties properties = System.getProperties();
         Set<String> propertyNames = properties.stringPropertyNames();

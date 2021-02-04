@@ -5,11 +5,13 @@ package com.nepxion.discovery.common.constant;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
 
 public class DiscoveryMetaDataConstant {
+
     public static final String SPRING_APPLICATION_DISCOVERY_PLUGIN = "spring_application_discovery_plugin";
     public static final String SPRING_APPLICATION_DISCOVERY_VERSION = "spring_application_discovery_version";
     public static final String SPRING_APPLICATION_DISCOVERY_AGENT_VERSION = "spring_application_discovery_agent_version";

@@ -545,30 +545,4 @@
         </profile>
     </profiles>
 
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-
-    <scm>
-        <url>https://github.com/Nepxion/Discovery</url>
-        <connection>scm:git:https://github.com/Nepxion/Discovery.git</connection>
-        <developerConnection>scm:git:https://github.com/Nepxion/Discovery.git</developerConnection>
-        <tag>v${project.version}</tag>
-    </scm>
-
-    <organization>
-        <name>Nepxion</name>
-        <url>http://www.nepxion.com</url>
-    </organization>
-
-    <developers>
-        <developer>
-            <name>Haojun Ren</name>
-            <email>1394997@qq.com</email>
-            <url>http://www.nepxion.com</url>
-        </developer>
-    </developers>
 </project>

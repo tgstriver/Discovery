@@ -1,18 +1,20 @@
 package com.nepxion.discovery.common.entity;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
+/**
+ * 过滤器类型
+ */
 public enum FilterType {
+
+    /**
+     * 黑名单
+     */
     BLACKLIST(DiscoveryConstant.BLACKLIST),
+
+    /**
+     * 白名单
+     */
     WHITELIST(DiscoveryConstant.WHITELIST);
 
     private String value;

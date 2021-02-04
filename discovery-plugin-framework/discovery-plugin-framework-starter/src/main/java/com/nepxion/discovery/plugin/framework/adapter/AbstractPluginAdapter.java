@@ -5,18 +5,10 @@ package com.nepxion.discovery.plugin.framework.adapter;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.serviceregistry.Registration;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
@@ -27,8 +19,17 @@ import com.nepxion.discovery.plugin.framework.cache.PluginCache;
 import com.nepxion.discovery.plugin.framework.cache.RuleCache;
 import com.nepxion.discovery.plugin.framework.context.PluginContextHolder;
 import com.netflix.loadbalancer.Server;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.serviceregistry.Registration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractPluginAdapter implements PluginAdapter {
+
     @Autowired
     protected Registration registration;
 
@@ -50,7 +51,7 @@ public abstract class AbstractPluginAdapter implements PluginAdapter {
     @Value("${" + DiscoveryConstant.SPRING_APPLICATION_TYPE + ":" + DiscoveryConstant.UNKNOWN + "}")
     private String applicationType;
 
-    protected Map<String, String> emptyMetadata = new HashMap<String, String>();
+    protected Map<String, String> emptyMetadata = new HashMap<>();
 
     @Override
     public String getPlugin() {

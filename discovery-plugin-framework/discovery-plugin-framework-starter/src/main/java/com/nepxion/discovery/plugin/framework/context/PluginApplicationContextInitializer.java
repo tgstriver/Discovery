@@ -5,23 +5,10 @@ package com.nepxion.discovery.plugin.framework.context;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.io.IOException;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.Ordered;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.banner.BannerConstant;
 import com.nepxion.banner.Description;
@@ -33,6 +20,19 @@ import com.nepxion.discovery.plugin.framework.decorator.DiscoveryClientDecorator
 import com.nepxion.discovery.plugin.framework.generator.GitGenerator;
 import com.nepxion.discovery.plugin.framework.generator.GroupGenerator;
 import com.taobao.text.Color;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.Ordered;
+import org.springframework.core.env.ConfigurableEnvironment;
+
+import java.io.IOException;
+import java.util.Map;
 
 public abstract class PluginApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
     private static final Logger LOG = LoggerFactory.getLogger(PluginApplicationContextInitializer.class);
@@ -55,7 +55,7 @@ public abstract class PluginApplicationContextInitializer implements Application
                 System.out.println("");
             }*/
 
-            LogoBanner logoBanner = new LogoBanner(PluginApplicationContextInitializer.class, "/com/nepxion/discovery/resource/logo.txt", "Welcome to Nepxion", 9, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green, Color.cyan }, true);
+            LogoBanner logoBanner = new LogoBanner(PluginApplicationContextInitializer.class, "/com/nepxion/discovery/resource/logo.txt", "Welcome to Nepxion", 9, 5, new Color[]{Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green, Color.cyan}, true);
 
             NepxionBanner.show(logoBanner, new Description(BannerConstant.VERSION + ":", DiscoveryConstant.DISCOVERY_VERSION, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/Discovery", 0, 1));
 
@@ -70,7 +70,6 @@ public abstract class PluginApplicationContextInitializer implements Application
             public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
                 if (bean instanceof DiscoveryClient) {
                     DiscoveryClient discoveryClient = (DiscoveryClient) bean;
-
                     return new DiscoveryClientDecorator(discoveryClient, applicationContext);
                 } else {
                     return afterInitialization(applicationContext, bean, beanName);
@@ -103,24 +102,25 @@ public abstract class PluginApplicationContextInitializer implements Application
 
     protected String getPrefixGroup(ConfigurableApplicationContext applicationContext) {
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
-
         Boolean isGroupGeneratorEnabled = PluginContextAware.isGroupGeneratorEnabled(environment);
         if (isGroupGeneratorEnabled) {
             GroupGenerator groupGenerator = applicationContext.getBean(GroupGenerator.class);
-
             return groupGenerator.getGroup();
         }
-
         return null;
     }
 
+    /**
+     * 通过git生成版本号
+     *
+     * @param applicationContext
+     * @return
+     */
     protected String getGitVersion(ConfigurableApplicationContext applicationContext) {
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
-
         Boolean isGitGeneratorEnabled = PluginContextAware.isGitGeneratorEnabled(environment);
         if (isGitGeneratorEnabled) {
             GitGenerator gitGenerator = applicationContext.getBean(GitGenerator.class);
-
             return gitGenerator.getVersion();
         }
 

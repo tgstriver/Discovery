@@ -5,19 +5,10 @@ package com.nepxion.discovery.plugin.registercenter.eureka.context;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeansException;
-import org.springframework.boot.SpringBootVersion;
-import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
-import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.constant.DiscoveryMetaDataConstant;
@@ -27,6 +18,15 @@ import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
 import com.nepxion.discovery.plugin.framework.util.MetadataUtil;
 import com.nepxion.discovery.plugin.registercenter.eureka.constant.EurekaConstant;
 import com.nepxion.discovery.plugin.registercenter.eureka.decorator.EurekaServiceRegistryDecorator;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeansException;
+import org.springframework.boot.SpringBootVersion;
+import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
+import org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+
+import java.util.Map;
 
 public class EurekaApplicationContextInitializer extends PluginApplicationContextInitializer {
     @Override

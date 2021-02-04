@@ -5,11 +5,13 @@ package com.nepxion.discovery.plugin.framework.context;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @author Robin.G
  * @version 1.0
  */
 
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -18,9 +20,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.env.Environment;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-
 public class PluginContextAware implements ApplicationContextAware {
+
     private ApplicationContext applicationContext;
     private Environment environment;
 
@@ -220,6 +221,12 @@ public class PluginContextAware implements ApplicationContextAware {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GROUP_GENERATOR_CHARACTER, String.class, StringUtils.EMPTY);
     }
 
+    /**
+     * 是否启用git生成器
+     *
+     * @param environment
+     * @return
+     */
     public static Boolean isGitGeneratorEnabled(Environment environment) {
         return environment.getProperty(DiscoveryConstant.SPRING_APPLICATION_GIT_GENERATOR_ENABLED, Boolean.class, Boolean.FALSE);
     }

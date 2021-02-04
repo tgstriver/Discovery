@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.framework.event;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -26,6 +27,7 @@ import com.nepxion.eventbus.annotation.EventBus;
 
 @EventBus
 public class PluginSubscriber {
+
     private static final Logger LOG = LoggerFactory.getLogger(PluginSubscriber.class);
 
     @Autowired
@@ -48,7 +50,6 @@ public class PluginSubscriber {
         Boolean discoveryControlEnabled = pluginContextAware.isDiscoveryControlEnabled();
         if (!discoveryControlEnabled) {
             LOG.info("Discovery control is disabled, ignore to subscribe");
-
             return;
         }
 
@@ -60,6 +61,7 @@ public class PluginSubscriber {
 
         SubscriptionType subscriptionType = ruleUpdatedEvent.getSubscriptionType();
         String rule = ruleUpdatedEvent.getRule();
+
         try {
             RuleEntity ruleEntity = pluginConfigParser.parse(rule);
             switch (subscriptionType) {

@@ -1,26 +1,18 @@
 package com.nepxion.discovery.plugin.registercenter.nacos.decorator;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
+import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
+import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
+import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
+import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
-import com.alibaba.cloud.nacos.registry.NacosServiceRegistry;
-import com.nepxion.discovery.plugin.framework.context.PluginContextAware;
-import com.nepxion.discovery.plugin.framework.listener.register.RegisterListenerExecutor;
-
+/**
+ * 对基于nacos实现服务注册功能进行装饰
+ */
 public class NacosServiceRegistryDecorator extends NacosServiceRegistry {
-    // private static final Logger LOG = LoggerFactory.getLogger(NacosServiceRegistryDecorator.class);
 
     private NacosServiceRegistry serviceRegistry;
     private ConfigurableApplicationContext applicationContext;

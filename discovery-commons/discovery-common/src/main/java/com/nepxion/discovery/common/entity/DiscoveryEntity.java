@@ -1,15 +1,10 @@
 package com.nepxion.discovery.common.entity;
 
 /**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
+ * 服务发现entity
  */
-
 public class DiscoveryEntity extends FilterHolderEntity {
+
     private static final long serialVersionUID = -7417362859952278987L;
 
     private VersionFilterEntity versionFilterEntity;
