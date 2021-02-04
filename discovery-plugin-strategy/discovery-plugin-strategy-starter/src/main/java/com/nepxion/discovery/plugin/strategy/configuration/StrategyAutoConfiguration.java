@@ -1,14 +1,5 @@
 package com.nepxion.discovery.plugin.strategy.configuration;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import feign.Feign;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +33,10 @@ import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitorContext;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 @Configuration
-@RibbonClients(defaultConfiguration = { StrategyLoadBalanceConfiguration.class })
+@RibbonClients(defaultConfiguration = {StrategyLoadBalanceConfiguration.class})
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class StrategyAutoConfiguration {
+
     @Bean
     @ConditionalOnMissingBean
     public DiscoveryEnabledAdapter discoveryEnabledAdapter() {
@@ -71,14 +63,14 @@ public class StrategyAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED)
     public StrategyMonitorContext strategyMonitorContext() {
         return new StrategyMonitorContext();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED, matchIfMissing = false)
+    @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_MONITOR_ENABLED)
     public StrategyLogger strategyLogger() {
         return new DefaultStrategyLogger();
     }
@@ -118,6 +110,7 @@ public class StrategyAutoConfiguration {
 
     @ConditionalOnClass(RestTemplate.class)
     protected static class RestTemplateStrategyConfiguration {
+
         @Autowired
         private ConfigurableEnvironment environment;
 

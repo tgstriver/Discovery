@@ -5,20 +5,10 @@ package com.nepxion.discovery.plugin.strategy.wrapper;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nepxion.discovery.common.entity.AddressWeightEntity;
 import com.nepxion.discovery.common.entity.MapWeightEntity;
@@ -36,8 +26,19 @@ import com.nepxion.discovery.common.entity.VersionWeightEntity;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.framework.loadbalance.weight.MapWeightRandom;
 import com.nepxion.discovery.plugin.strategy.condition.StrategyCondition;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class StrategyWrapper {
+
     @Autowired
     protected PluginAdapter pluginAdapter;
 

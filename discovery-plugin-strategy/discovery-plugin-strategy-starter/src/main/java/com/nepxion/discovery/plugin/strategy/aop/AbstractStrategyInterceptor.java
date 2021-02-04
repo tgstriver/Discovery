@@ -5,20 +5,10 @@ package com.nepxion.discovery.plugin.strategy.aop;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.ConfigurableEnvironment;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.util.StringUtil;
@@ -26,8 +16,19 @@ import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
 import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.ConfigurableEnvironment;
+
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 public abstract class AbstractStrategyInterceptor {
+
     private static final Logger LOG = LoggerFactory.getLogger(AbstractStrategyInterceptor.class);
 
     @Autowired
@@ -42,12 +43,13 @@ public abstract class AbstractStrategyInterceptor {
     @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_REST_INTERCEPT_DEBUG_ENABLED + ":false}")
     protected Boolean interceptDebugEnabled;
 
-    protected List<String> requestHeaderList = new ArrayList<String>();
+    protected List<String> requestHeaderList = new ArrayList<>();
 
     public AbstractStrategyInterceptor(String contextRequestHeaders, String businessRequestHeaders) {
         if (StringUtils.isNotEmpty(contextRequestHeaders)) {
             requestHeaderList.addAll(StringUtil.splitToList(contextRequestHeaders.toLowerCase()));
         }
+
         if (StringUtils.isNotEmpty(businessRequestHeaders)) {
             requestHeaderList.addAll(StringUtil.splitToList(businessRequestHeaders.toLowerCase()));
         }
@@ -57,6 +59,9 @@ public abstract class AbstractStrategyInterceptor {
         LOG.info("--------------------------------------------------");
     }
 
+    /**
+     * 拦截输入的请求头并输出
+     */
     protected void interceptInputHeader() {
         if (!interceptDebugEnabled) {
             return;
@@ -67,10 +72,9 @@ public abstract class AbstractStrategyInterceptor {
             System.out.println("------- " + getInterceptorName() + " Intercept Input Header Information -------");
             while (headerNames.hasMoreElements()) {
                 String headerName = headerNames.nextElement();
-                boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
+                boolean isHeaderContains = this.isHeaderContains(headerName.toLowerCase());
                 if (isHeaderContains) {
                     String headerValue = strategyContextHolder.getHeader(headerName);
-
                     System.out.println(headerName + "=" + headerValue);
                 }
             }
@@ -83,9 +87,7 @@ public abstract class AbstractStrategyInterceptor {
     }
 
     protected boolean isHeaderContainsExcludeInner(String headerName) {
-        return isHeaderContains(headerName) && !StrategyUtil.isInnerHeaderContains(headerName);
-
-        // return isHeaderContains(headerName) && !headerName.startsWith(DiscoveryConstant.N_D_SERVICE_PREFIX);
+        return this.isHeaderContains(headerName) && !StrategyUtil.isInnerHeaderContains(headerName);
     }
 
     protected abstract String getInterceptorName();

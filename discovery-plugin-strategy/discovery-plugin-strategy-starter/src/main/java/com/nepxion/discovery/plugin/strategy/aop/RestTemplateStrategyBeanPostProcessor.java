@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.aop;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.web.client.RestTemplate;
 
 public class RestTemplateStrategyBeanPostProcessor implements BeanPostProcessor {
+
     @Autowired
     protected RestTemplateStrategyInterceptor restTemplateStrategyInterceptor;
 

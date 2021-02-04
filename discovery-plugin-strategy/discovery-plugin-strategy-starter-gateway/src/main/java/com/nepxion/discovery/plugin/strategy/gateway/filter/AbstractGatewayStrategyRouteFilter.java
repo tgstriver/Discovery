@@ -5,21 +5,10 @@ package com.nepxion.discovery.plugin.strategy.gateway.filter;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import reactor.core.publisher.Mono;
-
-import java.util.Map;
-
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.web.server.ServerWebExchange;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.plugin.framework.adapter.PluginAdapter;
@@ -27,8 +16,19 @@ import com.nepxion.discovery.plugin.strategy.gateway.constant.GatewayStrategyCon
 import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyContext;
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrategyRouteFilter {
+
     @Autowired
     protected PluginAdapter pluginAdapter;
 
@@ -75,7 +75,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpRequest.Builder requestBuilder = request.mutate();
 
-        String routeEnvironment = getRouteEnvironment();
+        String routeEnvironment = this.getRouteEnvironment();
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端
         if (StringUtils.isNotEmpty(routeEnvironment)) {
             GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_ENVIRONMENT, routeEnvironment, false);
@@ -88,7 +88,6 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
                 for (Map.Entry<String, String> entry : headerMap.entrySet()) {
                     String key = entry.getKey();
                     String value = entry.getValue();
-
                     GatewayStrategyFilterResolver.setHeader(requestBuilder, key, value, gatewayHeaderPriority);
                 }
             }
@@ -100,6 +99,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
             String routeRegionWeight = getRouteRegionWeight();
             String routeIdBlacklist = getRouteIdBlacklist();
             String routeAddressBlacklist = getRouteAddressBlacklist();
+
             if (StringUtils.isNotEmpty(routeVersion)) {
                 GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_VERSION, routeVersion, gatewayHeaderPriority);
             } else {
@@ -155,6 +155,7 @@ public abstract class AbstractGatewayStrategyRouteFilter implements GatewayStrat
         if (StringUtils.isNotEmpty(serviceAppId)) {
             GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId, false);
         }
+
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId(), false);
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort(), false);
         GatewayStrategyFilterResolver.setHeader(requestBuilder, DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion(), false);

@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.context;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -16,12 +17,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.web.server.ServerWebExchange;
 
 public class GatewayStrategyContext {
-    private static final ThreadLocal<GatewayStrategyContext> THREAD_LOCAL = new ThreadLocal<GatewayStrategyContext>() {
-        @Override
-        protected GatewayStrategyContext initialValue() {
-            return new GatewayStrategyContext();
-        }
-    };
+
+    private static final ThreadLocal<GatewayStrategyContext> THREAD_LOCAL = ThreadLocal.withInitial(GatewayStrategyContext::new);
 
     private ServerWebExchange exchange;
 

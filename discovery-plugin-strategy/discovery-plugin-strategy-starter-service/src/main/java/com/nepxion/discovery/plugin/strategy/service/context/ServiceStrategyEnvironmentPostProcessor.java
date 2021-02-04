@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.service.context;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -20,6 +21,7 @@ import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ServiceType;
 
 public class ServiceStrategyEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         if (StringUtils.equals(environment.getClass().getName(), StandardEnvironment.class.getName())) {

@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.configuration;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -30,6 +31,7 @@ import com.nepxion.discovery.plugin.strategy.gateway.wrapper.GatewayStrategyCall
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 @ConditionalOnProperty(value = StrategyConstant.SPRING_APPLICATION_STRATEGY_CONTROL_ENABLED, matchIfMissing = true)
 public class GatewayStrategyAutoConfiguration {
+
     @Bean
     @ConditionalOnMissingBean
     public GatewayStrategyRouteFilter gatewayStrategyRouteFilter() {

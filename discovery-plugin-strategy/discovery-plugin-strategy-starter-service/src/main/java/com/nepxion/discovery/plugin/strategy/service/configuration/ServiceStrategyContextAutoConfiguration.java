@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.service.configuration;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -20,6 +21,7 @@ import com.nepxion.discovery.plugin.strategy.service.context.ServiceStrategyCont
 @Configuration
 @AutoConfigureBefore(RibbonClientConfiguration.class)
 public class ServiceStrategyContextAutoConfiguration {
+
     @Bean
     @ConditionalOnMissingBean
     public ServiceStrategyContextHolder serviceStrategyContextHolder() {

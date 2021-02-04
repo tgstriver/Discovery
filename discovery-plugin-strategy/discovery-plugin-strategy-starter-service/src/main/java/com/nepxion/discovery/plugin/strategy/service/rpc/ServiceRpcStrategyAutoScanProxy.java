@@ -5,20 +5,21 @@ package com.nepxion.discovery.plugin.strategy.service.rpc;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.lang.annotation.Annotation;
-
-import org.springframework.web.bind.annotation.RestController;
 
 import com.nepxion.discovery.plugin.strategy.service.annotation.ServiceStrategy;
 import com.nepxion.matrix.proxy.aop.DefaultAutoScanProxy;
 import com.nepxion.matrix.proxy.mode.ProxyMode;
 import com.nepxion.matrix.proxy.mode.ScanMode;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.lang.annotation.Annotation;
 
 public class ServiceRpcStrategyAutoScanProxy extends DefaultAutoScanProxy {
+
     private static final long serialVersionUID = 8436914718400274011L;
 
     private String[] commonInterceptorNames;
@@ -33,7 +34,7 @@ public class ServiceRpcStrategyAutoScanProxy extends DefaultAutoScanProxy {
     @Override
     protected String[] getCommonInterceptorNames() {
         if (commonInterceptorNames == null) {
-            commonInterceptorNames = new String[] { "serviceRpcStrategyInterceptor" };
+            commonInterceptorNames = new String[]{"serviceRpcStrategyInterceptor"};
         }
 
         return commonInterceptorNames;
@@ -43,7 +44,7 @@ public class ServiceRpcStrategyAutoScanProxy extends DefaultAutoScanProxy {
     @Override
     protected Class<? extends Annotation>[] getClassAnnotations() {
         if (classAnnotations == null) {
-            classAnnotations = new Class[] { RestController.class, ServiceStrategy.class };
+            classAnnotations = new Class[]{RestController.class, ServiceStrategy.class};
         }
 
         return classAnnotations;

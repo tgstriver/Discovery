@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.gateway.filter;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -20,6 +21,7 @@ import com.nepxion.discovery.plugin.strategy.gateway.context.GatewayStrategyCont
 import com.nepxion.discovery.plugin.strategy.gateway.monitor.GatewayStrategyMonitor;
 
 public class DefaultGatewayStrategyClearFilter implements GatewayStrategyClearFilter {
+
     @Autowired(required = false)
     protected GatewayStrategyMonitor gatewayStrategyMonitor;
 

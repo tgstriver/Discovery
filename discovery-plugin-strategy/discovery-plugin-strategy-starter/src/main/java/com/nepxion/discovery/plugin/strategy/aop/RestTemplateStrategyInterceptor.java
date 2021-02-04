@@ -5,17 +5,16 @@ package com.nepxion.discovery.plugin.strategy.aop;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @author Fengfeng Li
  * @version 1.0
  */
 
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +25,13 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
-import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor implements ClientHttpRequestInterceptor {
+
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
@@ -53,12 +53,12 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        interceptInputHeader();
+        super.interceptInputHeader();
 
-        applyInnerHeader(request);
-        applyOuterHeader(request);
+        this.applyInnerHeader(request);
+        this.applyOuterHeader(request);
 
-        interceptOutputHeader(request);
+        this.interceptOutputHeader(request);
 
         return execution.execute(request, body);
     }
@@ -71,6 +71,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
         if (StringUtils.isNotEmpty(serviceAppId)) {
             headers.add(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
         }
+
         headers.add(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
         headers.add(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         headers.add(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
@@ -160,8 +161,7 @@ public class RestTemplateStrategyInterceptor extends AbstractStrategyInterceptor
 
         System.out.println("------- " + getInterceptorName() + " Intercept Output Header Information ------");
         HttpHeaders headers = request.getHeaders();
-        for (Iterator<Entry<String, List<String>>> iterator = headers.entrySet().iterator(); iterator.hasNext();) {
-            Entry<String, List<String>> header = iterator.next();
+        for (Entry<String, List<String>> header : headers.entrySet()) {
             String headerName = header.getKey();
             boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
             if (isHeaderContains) {

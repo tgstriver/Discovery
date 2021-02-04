@@ -5,6 +5,7 @@ package com.nepxion.discovery.plugin.strategy.context;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
@@ -19,6 +20,7 @@ import com.nepxion.discovery.plugin.strategy.monitor.StrategyMonitorContext;
 import com.nepxion.discovery.plugin.strategy.wrapper.StrategyWrapper;
 
 public abstract class AbstractStrategyContextHolder implements PluginContextHolder, StrategyContextHolder {
+
     @Autowired
     protected PluginAdapter pluginAdapter;
 

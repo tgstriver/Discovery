@@ -5,23 +5,24 @@ package com.nepxion.discovery.common.util;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
+
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-
 public class StringUtil {
+
     public static List<String> splitToList(String value) {
         return splitToList(value, DiscoveryConstant.SEPARATE);
     }

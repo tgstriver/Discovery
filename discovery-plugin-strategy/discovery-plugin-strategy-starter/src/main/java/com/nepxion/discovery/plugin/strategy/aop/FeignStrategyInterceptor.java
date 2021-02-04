@@ -1,33 +1,22 @@
 package com.nepxion.discovery.plugin.strategy.aop;
 
-/**
- * <p>Title: Nepxion Discovery</p>
- * <p>Description: Nepxion Discovery</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @author Fengfeng Li
- * @version 1.0
- */
-
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
+import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
+import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Map;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.nepxion.discovery.common.constant.DiscoveryConstant;
-import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
-import com.nepxion.discovery.plugin.strategy.context.StrategyContextHolder;
-import com.nepxion.discovery.plugin.strategy.util.StrategyUtil;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Map;
 
 public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implements RequestInterceptor {
+
     @Autowired
     protected StrategyContextHolder strategyContextHolder;
 
@@ -49,12 +38,12 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        interceptInputHeader();
+        super.interceptInputHeader();
 
-        applyInnerHeader(requestTemplate);
-        applyOuterHeader(requestTemplate);
+        this.applyInnerHeader(requestTemplate);
+        this.applyOuterHeader(requestTemplate);
 
-        interceptOutputHeader(requestTemplate);
+        this.interceptOutputHeader(requestTemplate);
     }
 
     private void applyInnerHeader(RequestTemplate requestTemplate) {
@@ -64,6 +53,7 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         if (StringUtils.isNotEmpty(serviceAppId)) {
             requestTemplate.header(DiscoveryConstant.N_D_SERVICE_APP_ID, serviceAppId);
         }
+
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ID, pluginAdapter.getServiceId());
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_ADDRESS, pluginAdapter.getHost() + ":" + pluginAdapter.getPort());
         requestTemplate.header(DiscoveryConstant.N_D_SERVICE_VERSION, pluginAdapter.getVersion());
@@ -154,10 +144,9 @@ public class FeignStrategyInterceptor extends AbstractStrategyInterceptor implem
         Map<String, Collection<String>> headers = requestTemplate.headers();
         for (Map.Entry<String, Collection<String>> entry : headers.entrySet()) {
             String headerName = entry.getKey();
-            boolean isHeaderContains = isHeaderContains(headerName.toLowerCase());
+            boolean isHeaderContains = super.isHeaderContains(headerName.toLowerCase());
             if (isHeaderContains) {
                 Collection<String> headerValue = entry.getValue();
-
                 System.out.println(headerName + "=" + headerValue);
             }
         }

@@ -5,20 +5,10 @@ package com.nepxion.discovery.plugin.strategy.filter;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
 import com.nepxion.discovery.common.entity.ServiceType;
@@ -30,8 +20,19 @@ import com.nepxion.discovery.plugin.strategy.adapter.StrategyVersionFilterAdapte
 import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.matcher.DiscoveryMatcherStrategy;
 import com.netflix.loadbalancer.Server;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class StrategyVersionFilter {
+
     @Autowired
     private DiscoveryMatcherStrategy discoveryMatcherStrategy;
 
@@ -68,7 +69,7 @@ public class StrategyVersionFilter {
         }
 
         // 获取对端服务所有的版本号列表
-        List<String> versionList = getVersionList(server);
+        List<String> versionList = this.getVersionList(server);
         // 如果没有版本号，不过滤；如果版本号只有一个，则不过滤，返回
         if (versionList.size() <= 1) {
             return true;
@@ -87,11 +88,15 @@ public class StrategyVersionFilter {
         // 从负载均衡缓存获取对端服务列表
         List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
 
-        List<String> versionList = new ArrayList<String>();
+        List<String> versionList = new ArrayList<>();
         for (ServiceInstance instance : instances) {
             String version = pluginAdapter.getInstanceVersion(instance);
             // 当服务未接入本框架或者版本号未设置（表现出来的值为DiscoveryConstant.DEFAULT），并且不在指定环境、指定区域、指定可用区、指定IP地址和端口、指定黑名单里，不添加到认可列表
-            if (!versionList.contains(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT) && applyGroup(instance) && applyEnvironment(instance) && applyZone(instance) && applyRegion(instance) && applyAddress(instance) && applyIdBlacklist(instance) && applyAddressBlacklist(instance)) {
+            if (!versionList.contains(version) && !StringUtils.equals(version, DiscoveryConstant.DEFAULT)
+                    && applyGroup(instance) && applyEnvironment(instance)
+                    && applyZone(instance) && applyRegion(instance)
+                    && applyAddress(instance) && applyIdBlacklist(instance)
+                    && applyAddressBlacklist(instance)) {
                 versionList.add(version);
             }
         }

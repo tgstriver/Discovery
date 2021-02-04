@@ -5,25 +5,25 @@ package com.nepxion.discovery.plugin.strategy.service.context;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @author Fan Yang
  * @version 1.0
  */
 
-import java.util.Enumeration;
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
+import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.Map;
 
 public class ServiceStrategyContextHolder extends AbstractStrategyContextHolder {
+
     public ServletRequestAttributes getRestAttributes() {
         RequestAttributes requestAttributes = RestStrategyContext.getCurrentContext().getRequestAttributes();
         if (requestAttributes == null) {

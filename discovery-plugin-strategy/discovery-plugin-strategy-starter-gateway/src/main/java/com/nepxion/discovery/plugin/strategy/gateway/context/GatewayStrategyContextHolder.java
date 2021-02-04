@@ -5,22 +5,23 @@ package com.nepxion.discovery.plugin.strategy.gateway.context;
  * <p>Description: Nepxion Discovery</p>
  * <p>Copyright: Copyright (c) 2017-2050</p>
  * <p>Company: Nepxion</p>
+ *
  * @author Haojun Ren
  * @version 1.0
  */
+
+import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
+import org.springframework.http.HttpCookie;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.server.ServerWebExchange;
 
 import java.net.URI;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Set;
 
-import org.springframework.http.HttpCookie;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.web.server.ServerWebExchange;
-
-import com.nepxion.discovery.plugin.strategy.context.AbstractStrategyContextHolder;
-
 public class GatewayStrategyContextHolder extends AbstractStrategyContextHolder {
+
     public ServerWebExchange getExchange() {
         return GatewayStrategyContext.getCurrentContext().getExchange();
     }
